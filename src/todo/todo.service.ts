@@ -1,36 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
 import { CreateTodoDto } from './dto/create-todo.dto';
-import { Todo } from './todo.interface';
+import { Todo } from './todo.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TodoService {
 
-  private readonly todos: Todo[] = [
-    {
-      id: uuid(),
-      title: 'Faire les courses',
-      completed: true
-    }
-  ]
+  constructor(@InjectRepository(Todo) private todoRepository: Repository<Todo>) {}
 
-  create(todo: CreateTodoDto) {
-
-    const todoToCreate = {
-      id: uuid(),
-      ...todo
-    };
-
-    this.todos.push(todoToCreate);
+  create(todo: CreateTodoDto): Promise<Todo> {
+    return this.todoRepository.save(todo)
   }
 
-  findAll(): Todo[] {
-    return this.todos;
+  findAll(): Promise<Todo[]> {
+    return this.todoRepository.find();
   }
 
-  findOneById(uuid: uuid): Todo {
-    return this.todos.find(todo => todo.id === uuid.id /** uuid.id => convert uuid to string */);
+  findOneById(id: string): Promise<Todo> {
+    return this.todoRepository.findOne(id);
   }
-
 
 }
