@@ -168,6 +168,87 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "update todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3f4471b-a185-4dea-ade3-deb9fc237551",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Aller promener le chien\",\n    \"completed\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:3000/todo/2029ff99-5ec3-4d59-8555-8d91e88547b3",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"2029ff99-5ec3-4d59-8555-8d91e88547b3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "354a19fe-4bf6-459a-a28b-54a0a0ebbd0d",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:3000/todo/2029ff99-5ec3-4d59-8555-8d91e88547b3",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"2029ff99-5ec3-4d59-8555-8d91e88547b3"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

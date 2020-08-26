@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, ParseUUIDPipe } from '@nestjs/common';
-import { CreateTodoDto } from './dto/create-todo.dto';
+import { Body, Controller, Get, Param, Post, ParseUUIDPipe, Put, Res, Delete } from '@nestjs/common';
+import { TodoDto } from './dto/todo.dto';
 import { Todo } from './todo.entity';
 import { TodoService } from './todo.service';
+import { DeleteResult } from 'typeorm';
 
 @Controller('todo')
 export class TodoController {
@@ -19,8 +20,21 @@ export class TodoController {
   }
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto): Promise<Todo> {
+  create(@Body() createTodoDto: TodoDto): Promise<Todo> {
     return this.todoService.create(createTodoDto);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', new ParseUUIDPipe()) id: string, 
+    @Body() updateTodoDto: TodoDto
+    ) {
+    return this.todoService.update(id, updateTodoDto);
+  }
+
+  @Delete(':id')
+  delete(@Param('id', new ParseUUIDPipe()) id: string): Promise<DeleteResult> {
+    return this.todoService.delete(id);
   }
 
 }
